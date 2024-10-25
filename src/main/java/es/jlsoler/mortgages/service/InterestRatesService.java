@@ -11,8 +11,6 @@ import java.util.Optional;
 @Service
 public class InterestRatesService implements InterestRatesApiDelegate {
 
-    public ResponseEntity<List<MortgageRate>> listMortgageRates() {
-        return ResponseEntity.of(Optional.of(List.of(MortgageRate.builder().build())));
-    }
+
 
 }

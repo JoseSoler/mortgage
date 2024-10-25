@@ -17,6 +17,10 @@ tags:
 
   - name: MortgageProposal
     description: The Mortgage check (proposal) contains at least the fields; income (Amount), maturityPeriod (integer), loanValue (Amount), homeValue (Amount)
+
+  - name: CheckResult
+    description: The result of checking the mortgage proposal
+
 paths:
   /interest-rates:
     get:
@@ -54,7 +58,6 @@ paths:
           content:
             application/json:
               schema:
-                items:
                   $ref: '#/components/schemas/CheckResult'
 components:
   schemas:
