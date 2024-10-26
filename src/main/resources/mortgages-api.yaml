@@ -67,12 +67,11 @@ components:
       properties:
         maturityPeriod:
           type: integer
-          format: int64
-          example: 10
+          format: integer
+          example: 360
         interestRate:
-          type: integer
-          format: int64
-          example: 5
+          type: float
+          example: 5.5
         lastUpdate:
           type: string
           format: date-time
@@ -82,14 +81,20 @@ components:
       properties:
         income:
           type: integer
-          format: int64
+          format: integer
           example: 100000
         maturityPeriod:
           type: integer
-          example: 5
+          example: 36
         loanValue:
           type: integer
-          example: 5
+          example: 100000
+        homeValue:
+          type: integer
+          example: 180000
+        interestRate:
+          type: float
+          example: 5.5
         currency:
           type: string
           example: EUR
@@ -101,8 +106,11 @@ components:
           type: boolean
           example: false
         monthlyCost:
-          type: integer
-          example: 500
+          type: float
+          example: 500.25
         currency:
           type: string
           example: EUR
+        reason:
+          type: string
+          example: Exceeds home value
