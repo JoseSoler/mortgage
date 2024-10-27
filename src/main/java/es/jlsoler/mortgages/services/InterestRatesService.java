@@ -1,4 +1,4 @@
-package es.jlsoler.mortgages.service;
+package es.jlsoler.mortgages.services;
 
 import es.jlsoler.mortgages.api.InterestRatesApiDelegate;
 import es.jlsoler.mortgages.model.MortgageRate;

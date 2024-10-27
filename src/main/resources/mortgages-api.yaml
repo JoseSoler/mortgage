@@ -59,11 +59,20 @@ paths:
             application/json:
               schema:
                   $ref: '#/components/schemas/CheckResult'
+        '400':
+          description: The check was not possible due to some missing field. Check the reject reason from response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckResult'
 components:
   schemas:
-
     MortgageRate:
       type: object
+      required:
+        - maturityPeriod
+        - interestRate
+        - lastUpdate
       properties:
         maturityPeriod:
           type: integer
@@ -75,14 +84,20 @@ components:
         lastUpdate:
           type: string
           format: date-time
-
     MortgageProposal:
       type: object
+      required:
+        - income
+        - maturityPeriod
+        - loanValue
+        - homeValue
+        - interestRate
+        - currency
       properties:
         income:
           type: integer
           format: integer
-          example: 100000
+          example: 15000
         maturityPeriod:
           type: integer
           example: 36
@@ -98,9 +113,13 @@ components:
         currency:
           type: string
           example: EUR
-
     CheckResult:
       type: object
+      required:
+        - feasible
+        - monthlyCost
+        - currency
+        - rejectReason
       properties:
         feasible:
           type: boolean
@@ -111,6 +130,6 @@ components:
         currency:
           type: string
           example: EUR
-        reason:
+        rejectReason:
           type: string
           example: Exceeds home value

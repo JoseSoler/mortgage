@@ -8,6 +8,7 @@ class MortgagesApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//Just checks that Spring Context is not broken
 	}
 
 }

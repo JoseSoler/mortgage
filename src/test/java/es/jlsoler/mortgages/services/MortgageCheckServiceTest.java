@@ -2,8 +2,13 @@ package es.jlsoler.mortgages.services;
 
 import es.jlsoler.mortgages.model.CheckResult;
 import es.jlsoler.mortgages.model.MortgageProposal;
-import es.jlsoler.mortgages.service.MortgageCheckService;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class MortgageCheckServiceTest {
 
+    private static final Logger log = LoggerFactory.getLogger(MortgageCheckServiceTest.class);
     //Subject Under Test
     private final MortgageCheckService service = new MortgageCheckService();
 
@@ -35,6 +41,7 @@ public class MortgageCheckServiceTest {
         //then
         assertNotNull(result);
         assertFalse(result.getFeasible());
+        assertEquals("Loan exceeds 4X the income", result.getRejectReason());
     }
 
     @Test
@@ -54,6 +61,7 @@ public class MortgageCheckServiceTest {
         //then
         assertNotNull(result);
         assertFalse(result.getFeasible());
+        assertEquals("Loan exceeds home value", result.getRejectReason());
     }
 
     @Test
@@ -73,5 +81,19 @@ public class MortgageCheckServiceTest {
         //then
         assertNotNull(result);
         assertTrue(result.getFeasible());
+    }
+
+    @Test
+    void shouldReturnBadRequestBecauseMissingMandatoryIncome() {
+        //given
+        MortgageProposal proposal = MortgageProposal.builder().build();
+
+        //when
+        ResponseEntity<CheckResult> response = service.checkMortgage(proposal);
+
+        //then
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        log.info(Objects.requireNonNull(response.getBody()).getRejectReason());
     }
 }

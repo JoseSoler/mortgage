@@ -1,7 +1,6 @@
 package es.jlsoler.mortgages.services;
 
 import es.jlsoler.mortgages.model.MortgageRate;
-import es.jlsoler.mortgages.service.InterestRatesService;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
