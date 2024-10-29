@@ -4,9 +4,11 @@ import es.jlsoler.mortgages.api.MortgageCheckApiDelegate;
 import es.jlsoler.mortgages.exceptions.InvalidMortgageProposalException;
 import es.jlsoler.mortgages.model.CheckResult;
 import es.jlsoler.mortgages.model.MortgageProposal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class MortgageCheckService implements MortgageCheckApiDelegate {
 
@@ -16,11 +18,13 @@ public class MortgageCheckService implements MortgageCheckApiDelegate {
         try {
             validateInput(mortgageProposal);
         } catch (InvalidMortgageProposalException ex) {
+            log.error(ex.getMessage());
             return ResponseEntity.badRequest().body(CheckResult.builder().rejectReason(ex.getMessage()).build());
         }
 
         float loanWithInterests = mortgageProposal.getLoanValue() + (mortgageProposal.getLoanValue() * (mortgageProposal.getInterestRate() / 100));
         float monthlyCost = (loanWithInterests / mortgageProposal.getMaturityPeriod());
+        log.info("Calculated LoanWithInterests is {} and Monthly loan cost is {} ", loanWithInterests, monthlyCost);
 
         if (mortgageProposal.getLoanValue() > mortgageProposal.getHomeValue()) {
             return ResponseEntity.ok(CheckResult.builder().feasible(false).rejectReason("Loan exceeds home value").build());
